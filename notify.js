@@ -1,3 +1,20 @@
+(function () {
+	var resources = [
+		{tag: 'script', src: 'src', path: 'https://code.jquery.com/ui/1.12.1/jquery-ui.js', target: 'body'},
+		{tag: 'script', src: 'src', path: 'https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js', target: 'body'},
+		{tag: 'script', src: 'src', path: 'https://cdnjs.cloudflare.com/ajax/libs/tinycolor/1.4.1/tinycolor.min.js', target: 'body'},
+		{tag: 'link', src: 'href', path: 'https://fonts.googleapis.com/css?family=Roboto', target: 'head'},
+	];
+
+	var el;
+	for (var i in resources){
+		el = document.createElement(resources[i].tag);
+		el.setAttribute(resources[i].src, resources[i].path);
+
+		document.getElementsByTagName(resources[i].target)[0].appendChild(el);
+	}
+})();
+
 var Notify = function (options) {
 
 	_this = this;
@@ -18,10 +35,9 @@ var Notify = function (options) {
 			return;
 
 		jQuery('head').append(`
-							<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 							<style>
 								.notify-js {
-									font-family: 'Roboto', sans-serif;
+									font-family: "Roboto", sans-serif;
 									font-weight: 300;
 									font-size: 14px;
 								}
@@ -96,18 +112,26 @@ var Notify = function (options) {
 
 
 		_this.options.color = _this.options.color.toLowerCase() === 'random' ? tinycolor.random() : _this.options.color;
-		var fontColor = tinycolor(_this.options.color).isDark() ? '#fff' : 'black';
+		var fontColor = tinycolor(_this.options.color).isDark() ? '#fff' : 'black',
+			dir = isMobile() ? 'margin-bottom': 'margin-top';
+
 
 		jQuery('.notify-js.notify-wraper' + (!isMobile() ? '.notify-' + _this.options.position : ''))
 			.append(`<span class="notify-js notify-message-wraper" id="` + _this.id + `" style="opacity: 0; 
 																						  background: ` + _this.options.color + `; 
 																						  float: ` + _this.options.position + `;
 																						  border-radius: ` + (_this.options.rounded ? '25px': '0px') + `;
-																						  margin-top: 20px;">
+																						  ` + dir + `: 20px;
+																						  "
+																						  >
 						<span class="notify-message" style="color: ` + fontColor + `">` + _this.options.content + `</span>
 					</span>`);
 
-		jQuery(_this._id).animate({opacity: 1, marginTop: '0px'}, 200);
+		var args = {opacity: 1};
+		args[dir] = 0;
+
+		jQuery(_this._id).animate(args, 200);
+		setTimeout(function() {console.log(_this._id)}, _this.options.timeout);
 	};
 
 	var behavior = function () {
@@ -115,7 +139,7 @@ var Notify = function (options) {
 				axis: 'x', 
 				scroll:false, 
 				start: function() {
-		        	$(this).animate({opacity: 0}, 100).fadeOut();
+		        	jQuery(this).animate({opacity: 0}, 100).fadeOut();
 		        	window.clearTimeout(_this.timeout)
 		      	},
 		      	stop: _this.options.callback

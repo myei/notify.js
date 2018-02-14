@@ -16,8 +16,11 @@
 			callback: hey
 		});
 		new Notify({
-			content: 'Default ',
-			color: 'random'
+			content: 'Callback',
+			color: 'random',
+			callback: function () {
+				alert('This is a callback');
+			}
 		});
 	});
 
