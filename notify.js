@@ -5,46 +5,55 @@ var Notify = function (options) {
 	this.name = 'Notify.js';
 
 	this.options = {
-		color: 'red',
-		position: 'left',
+		color: '#323232',
+		position: 'right',
+		rounded: false,
 		content: null,
-		callback: null
+		callback: null,
+		timeout: 4000
 	};
 
 	var build = function () {
 		if (jQuery('.notify-js.notify-wraper').length)
 			return;
 
-		jQuery('head').append(`<style>
+		jQuery('head').append(`
+							<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+							<style>
+								.notify-js {
+									font-family: 'Roboto', sans-serif;
+									font-weight: 300;
+									font-size: 14px;
+								}
 								.notify-js.notify-wraper {
 									position: ` + (isMobile() ? 'fixed' : 'absolute') + `;
-									width: ` + (isMobile() ? '100%' : '250px') + `;
+									width: ` + (isMobile() ? '100%' : '1px') + `;
 									text-align: ` + (isMobile() ? 'center' : 'left') + `;
 									bottom: ` + (isMobile() ? '0px' : 'inherit') + `;
-									top: ` + (isMobile() ? 'inherit' : '0px') + `;
-									left: ` + (isMobile() ? '0px' : '') + `;
+									top: ` + (isMobile() ? 'inherit' : '5%') + `;
+									left: ` + (isMobile() ? '0' : '') + `;
 									height: auto;
 									z-index: 9999999999;
 								}
 								.notify-js.notify-message-wraper {
-									padding: 1em;
+									padding: 1rem;
 									color: white;
-									margin-top: 10px;
-									margin-left: 0px;
+									margin-top: ` + (isMobile() ? '10px' : '0') + `;
+									margin-bottom: ` + (isMobile() ? '0' : '10px') + `;
 									cursor: pointer;
-									box-shadow: 1px 2px 13px #ccc;
-									border-radius: ` + (isMobile() ? '0px' : '5px') + `;
-									min-width: ` + (isMobile() ? '100%' : '200px') + `;
+									box-shadow: 0px 1px 3px rgba(0,0,0,0.2);
+									min-width: ` + (isMobile() ? '100%' : 'auto') + `;
 									white-space: ` + (isMobile() ? 'inherit' : 'nowrap') + `;
+									position: relative;
 								}
 								.notify-js .notify-message {
 									letter-spacing: 1px;
 								}
 								.notify-right {
-									right: 20px;
+									right: 5%;
 								}
 								.notify-left {
-									left: 20px;
+									left: 5%;
 								}
 						   </style>
 						   <meta charset="UTF-8">
@@ -54,8 +63,6 @@ var Notify = function (options) {
 		jQuery('body').append('<div class="notify-js notify-wraper notify-' + (isMobile() ? 'mobile' : 'desktop notify-right') + '"></div>');
 			if (!isMobile())
 				jQuery('body').append('<div class="notify-js notify-wraper notify-' + (isMobile() ? 'mobile' : 'desktop notify-left') + '"></div>');
-
-		behavior();
 	};
 
 
@@ -67,8 +74,12 @@ var Notify = function (options) {
 		else
 			console.error(_this.name + ': Argument error, string or object are accepted.');
 
+		_this.id = 'notify-js-' + Math.round(Math.random() * (99999 - 10) + 10);
+		_this._id = '#' + _this.id;
+
 		build();
 		message();
+		behavior();
 	};
 
 	var isMobile = function () {
@@ -83,28 +94,36 @@ var Notify = function (options) {
 			return;
 		}
 
-		var color = tinycolor(_this.options.color).isDark() ? 'white' : 'black';
+
+		_this.options.color = _this.options.color.toLowerCase() === 'random' ? tinycolor.random() : _this.options.color;
+		var fontColor = tinycolor(_this.options.color).isDark() ? '#fff' : 'black';
+
 		jQuery('.notify-js.notify-wraper' + (!isMobile() ? '.notify-' + _this.options.position : ''))
-			.append(`<span class="notify-js notify-message-wraper" style="display:none; background: ` + _this.options.color + `; float: ` + _this.options.position + `">
-						<span class="notify-message" style="color: ` + color + `">` + _this.options.content + `</span>
+			.append(`<span class="notify-js notify-message-wraper" id="` + _this.id + `" style="opacity: 0; 
+																						  background: ` + _this.options.color + `; 
+																						  float: ` + _this.options.position + `;
+																						  border-radius: ` + (_this.options.rounded ? '25px': '0px') + `;
+																						  margin-top: 20px;">
+						<span class="notify-message" style="color: ` + fontColor + `">` + _this.options.content + `</span>
 					</span>`);
 
-		jQuery('.notify-js.notify-wraper').each(function () {
-			$(this).children().last().fadeIn();
-		});
+		jQuery(_this._id).animate({opacity: 1, marginTop: '0px'}, 200);
 	};
 
 	var behavior = function () {
-		jQuery('body').delegate('.notify-js.notify-message-wraper', 'click', function() {
-			if (_this.options.callback){
-				_this.options.callback();
-			}
+		jQuery(_this._id).draggable({ 
+				axis: 'x', 
+				scroll:false, 
+				start: function() {
+		        	$(this).animate({opacity: 0}, 100).fadeOut();
+		        	window.clearTimeout(_this.timeout)
+		      	},
+		      	stop: _this.options.callback
+	      	});
+	};
 
-			var orientation = $(this).css('float') === 'right' ? {marginRight: '-100%', opacity: '0'} : {marginLeft: '-100%', opacity: '0'};
-			$(this).animate(orientation, 300, function () {
-				$(this).remove();
-			});
-		});
+	var close = function (target) {
+		jQuery(target).animate({opacity: 0, marginTop: '-40px'}, 200, function () { jQuery(target).remove(); });
 	};
 
 	return init(options);
