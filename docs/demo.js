@@ -2,19 +2,32 @@
 	
 	$('#right').click(function() {
 		new Notify('Default notification');
+	});
+
+	$('#random').click(function() {
 		new Notify({
-			content: 'Default notifi',
+			content: 'Random color...',
 			color: 'random'
 		});
+	});
+
+	$('#left').click(function() {
 		new Notify({
-			content: 'Default notification...',
-			color: 'random'
+			content: 'Left notification',
+			position: 'left',
+			color: 'red'
 		});
+	});
+
+	$('#rounded').click(function() {
 		new Notify({
-			content: 'Default eroiwmfgioergjiore',
-			color: 'random',
-			callback: hey
+			content: 'Rounded notification',
+			rounded: true,
+			color: 'blue'
 		});
+	});
+
+	$('#callback').click(function() {
 		new Notify({
 			content: 'Callback',
 			color: 'random',
@@ -24,22 +37,4 @@
 		});
 	});
 
-	$('#left').click(function() {
-		new Notify({
-			content: 'Left notification',
-			position: 'left'
-		});
-	});
-
-	$('#rounded').click(function() {
-		new Notify({
-			content: 'Left notification',
-			rounded: true
-		});
-	});
-
 })();
-
-function hey() {
-	console.log('hola')
-}
