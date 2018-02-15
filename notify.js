@@ -34,7 +34,46 @@ var Notify = function (options) {
 		if (jQuery('.notify-js.notify-wraper').length)
 			return;
 
-		jQuery('head').append('<style> .notify-js {font-family: "Roboto", sans-serif; font-weight: 300; font-size: 14px; } .notify-js.notify-wraper {position: ' + (isMobile() ? 'fixed' : 'absolute') + '; width: ' + (isMobile() ? '100%' : '1px') + '; text-align: ' + (isMobile() ? 'center' : 'left') + '; bottom: ' + (isMobile() ? '0px' : 'inherit') + '; top: ' + (isMobile() ? 'inherit' : '5%') + '; left: ' + (isMobile() ? '0' : '') + '; height: auto; z-index: 9999999999; } .notify-js.notify-message-wraper {padding: 1rem; color: white; margin-top: ' + (isMobile() ? '10px' : '0') + '; margin-bottom: ' + (isMobile() ? '0' : '10px') + '; cursor: pointer; box-shadow: 0px 1px 3px rgba(0,0,0,0.2); min-width: ' + (isMobile() ? '100%' : 'auto') + '; white-space: ' + (isMobile() ? 'inherit' : 'nowrap') + '; position: relative; } .notify-js .notify-message {letter-spacing: 1px; } .notify-right {right: 5%; } .notify-left {left: 5%; } </style> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">');
+		jQuery('head').append(`
+							<style>
+								.notify-js {
+									font-family: "Roboto", sans-serif;
+									font-weight: 300;
+									font-size: 14px;
+								}
+								.notify-js.notify-wraper {
+									position: ` + (isMobile() ? 'fixed' : 'absolute') + `;
+									width: ` + (isMobile() ? '100%' : '1px') + `;
+									text-align: ` + (isMobile() ? 'center' : 'left') + `;
+									bottom: ` + (isMobile() ? '0px' : 'inherit') + `;
+									top: ` + (isMobile() ? 'inherit' : '5%') + `;
+									left: ` + (isMobile() ? '0' : '') + `;
+									height: auto;
+									z-index: 9999999999;
+								}
+								.notify-js.notify-message-wraper {
+									padding: 1rem;
+									color: white;
+									margin-top: ` + (isMobile() ? '10px' : '0') + `;
+									margin-bottom: ` + (isMobile() ? '0' : '10px') + `;
+									cursor: pointer;
+									box-shadow: 0px 1px 3px rgba(0,0,0,0.2);
+									min-width: ` + (isMobile() ? '100%' : 'auto') + `;
+									white-space: ` + (isMobile() ? 'inherit' : 'nowrap') + `;
+									position: relative;
+								}
+								.notify-js .notify-message {
+									letter-spacing: 1px;
+								}
+								.notify-right {
+									right: 5%;
+								}
+								.notify-left {
+									left: 5%;
+								}
+						   </style>
+						   <meta charset="UTF-8">
+						   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">`);
 
 
 		jQuery('body').append('<div class="notify-js notify-wraper notify-' + (isMobile() ? 'mobile' : 'desktop notify-right') + '"></div>');
@@ -80,7 +119,15 @@ var Notify = function (options) {
 
 
 		jQuery('.notify-js.notify-wraper' + (!isMobile() ? '.notify-' + _this.options.position : ''))
-			.append('<span class="notify-js notify-message-wraper" id="' + _this.id + '" style="opacity: 0; background: ' + _this.options.color + '; float: ' + _this.options.position + '; border-radius: ' + (_this.options.rounded ? '25px': '0px') + '; ' + _this.dir + ': 20px; "> <span class="notify-message" style="color: ' + fontColor + '">' + _this.options.content + '</span> </span>');
+			.append(`<span class="notify-js notify-message-wraper" id="` + _this.id + `" style="opacity: 0; 
+																						  background: ` + _this.options.color + `; 
+																						  float: ` + _this.options.position + `;
+																						  border-radius: ` + (_this.options.rounded ? '25px': '0px') + `;
+																						  ` + _this.dir + `: 20px;
+																						  "
+																						  >
+						<span class="notify-message" style="color: ` + fontColor + `">` + _this.options.content + `</span>
+					</span>`);
 
 		show();
 		auto_destroy(_this._id, _this.options.timeout);
