@@ -1,18 +1,18 @@
 (function () {
 	
 	$('#right').click(function() {
-		new Notify('Default notification');
+		Notify('Default notification');
 	});
 
 	$('#random').click(function() {
-		new Notify({
+		Notify({
 			content: 'Random color...',
 			color: 'random'
 		});
 	});
 
 	$('#left').click(function() {
-		new Notify({
+		Notify({
 			content: 'Left notification',
 			position: 'left',
 			color: 'red'
@@ -20,7 +20,7 @@
 	});
 
 	$('#rounded').click(function() {
-		new Notify({
+		Notify({
 			content: 'Rounded notification',
 			rounded: true,
 			color: 'blue'
@@ -28,7 +28,7 @@
 	});
 
 	$('#callback').click(function() {
-		new Notify({
+		Notify({
 			content: 'Callback',
 			color: 'random',
 			callback: function () {
