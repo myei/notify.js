@@ -97,7 +97,7 @@ var Notify = function (options) {
 
 		build();
 		message();
-		behavior();
+		behavior(_this);
 	};
 
 	var isMobile = function () {
@@ -130,7 +130,7 @@ var Notify = function (options) {
 					</span>`);
 
 		show();
-		auto_destroy(_this._id, _this.options.timeout);
+		auto_destroy(_this._id, _this.options.timeout, _this.options.callback);
 	};
 
 	var show = function () {
@@ -140,20 +140,22 @@ var Notify = function (options) {
 		jQuery(_this._id).animate(args, 200);
 	};
 
-	var behavior = function () {
+	var behavior = function (_this) {
 		jQuery(_this._id).draggable({ 
 				axis: 'x', 
 				scroll:false, 
 				start: function() {
 		        	jQuery(this).animate({opacity: 0}, 100).fadeOut();
-		        	window.clearTimeout(_this.timeout);
+		        	window.clearTimeout(_this.after);
 		      	},
 		      	stop: _this.options.callback
 	      	});
 	};
 
-	var auto_destroy = function (target, moment) {
-		setTimeout(function() { jQuery(target).animate({opacity: 0, marginTop: '-40px'}, 200, function () { jQuery(this).remove(); }); }, moment);
+	var auto_destroy = function (target, moment, callback) {
+		_this.after = setTimeout(function() {
+			jQuery(target).animate({opacity: 0, marginTop: '-40px'}, 200, function () {jQuery(this).remove(); if (callback) callback(); }); 
+		}, moment);
 	};
 
 	return init(options);
