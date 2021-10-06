@@ -1,18 +1,19 @@
 # Notify.js
 
-Este es un plugin para la gestión de notificaciones responsivas y minimalistas estilo ```toast```:
+Este es un plugin ligero, personalizable y facil de implementar para la gestión de notificaciones responsivas y minimalistas estilo ```toast```:
+
+>Hecho en `Vanilla Js`
+
+Se integró [TinyColor](https://github.com/bgrins/TinyColor) para el manejo de colores.
 
 
 ## Ejemplos de uso:
 
-Este plugin necesita [jQuery](https://jquery.com/download/).
-
-Se usaron las herramientas de [TinyColor](https://github.com/bgrins/TinyColor) para el manejo de colores.
-
 ### Puedes probar el demo [aquí](https://myei.github.io/notify.js/).
 
+
+Instalación:
 ```html
-<script src="/path/to/jquery.min.js"></script>
 <script src="/path/to/notify.min.js"></script>
 ```
 
@@ -21,15 +22,16 @@ Se usaron las herramientas de [TinyColor](https://github.com/bgrins/TinyColor) p
 ```javascript
 // Mostrando valores por defecto
 var opciones = {
-	color: '#323232',	// random, hex, rgb(a), nombre
-	position: 'right',	// right, left
-	rounded: false,		// boolean
-	content: null,		// String del mensaje
-	callback: null,		// Función ejecutada al destruir el mensaje
-	timeout: 4000		// Tiempo para auto destrucción de notificación
+	color: '#323232',		// random, hex, rgb(a), nombre
+	position: 'right',		// right, left
+	rounded: 0,				// int, cantidad de pixeles a redondear los bordes
+	content: null,			// String del mensaje
+	callback: null,			// Función ejecutada al destruir el mensaje
+	speedAnimations: 200	// Velocidad de las animaciones (fadeIn/fadeOut)
+	timeout: 4000			// Tiempo para auto destrucción de notificación
 }
 ```
-#### Creando notificaciones:
+## Creando notificaciones:
 
 ***Básicas:***
 

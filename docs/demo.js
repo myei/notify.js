@@ -1,17 +1,17 @@
 (function () {
 	
-	$('#right').click(function() {
+	document.querySelector('#right').addEventListener('click', function() {
 		Notify('Default notification');
 	});
 
-	$('#random').click(function() {
+	document.querySelector('#random').addEventListener('click', function() {
 		Notify({
 			content: 'Random color...',
 			color: 'random'
 		});
 	});
 
-	$('#left').click(function() {
+	document.querySelector('#left').addEventListener('click', function() {
 		Notify({
 			content: 'Left notification',
 			position: 'left',
@@ -19,15 +19,15 @@
 		});
 	});
 
-	$('#rounded').click(function() {
+	document.querySelector('#rounded').addEventListener('click', function() {
 		Notify({
 			content: 'Rounded notification',
-			rounded: true,
+			rounded: 5,
 			color: 'blue'
 		});
 	});
 
-	$('#callback').click(function() {
+	document.querySelector('#callback').addEventListener('click', function() {
 		Notify({
 			content: 'Callback',
 			color: 'random',

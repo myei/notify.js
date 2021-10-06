@@ -1,0 +1,39 @@
+{
+  "name": "myei-notifyjs",
+  "version": "1.1.0",
+  "description": "A lightweight, customizable, easy-to-implement Javascript plugin for notifications like `toasts`",
+  "main": "notify.min.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "dependencies": {
+    "@fontsource/roboto": "^4.5.1",
+    "tinycolor2": "^1.4.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/myei/notify.js.git"
+  },
+  "keywords": [
+    "javascript",
+    "notify",
+    "customizable",
+    "callbacks",
+    "easy-to-use",
+    "no-jquery",
+    "lightweight",
+    "toast"
+  ],
+  "author": {
+    "name": "myei",
+    "url": "https://github.com/myei/"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/myei/notify.js/issues"
+  },
+  "homepage": "https://github.com/myei/notify.js#readme"
+}
